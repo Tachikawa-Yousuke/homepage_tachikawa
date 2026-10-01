@@ -140,6 +140,21 @@ class Menu {
   }
 }
 
+// ---------- 極小フォント（3×5）: クレジット等の小さな英字用 ----------
+const TINY = {
+  '0':'111101101101111','1':'010110010010111','2':'111001111100111','3':'111001111001111','4':'101101111001001','5':'111100111001111','6':'111100111101111','7':'111001001001001','8':'111101111101111','9':'111101111001111',
+  'A':'010101111101101','B':'110101110101110','C':'111100100100111','D':'110101101101110','E':'111100110100111','F':'111100110100100','G':'111100101101111','H':'101101111101101','I':'111010010010111','J':'001001001101111','K':'101101110101101','L':'100100100100111','M':'101111111101101','N':'110101101101101','O':'111101101101111','P':'111101111100100','Q':'111101101111011','R':'111101110101101','S':'111100111001111','T':'111010010010010','U':'101101101101111','V':'101101101101010','W':'101101111111101','X':'101101010101101','Y':'101101010010010','Z':'111001010100111',
+  ' ':'000000000000000','.':'000000000000010','-':'000000111000000','/':'001001010100100',':':'000010000010000','©':'111101100101111','@':'111101111100111',
+};
+function tinyText(g, text, x, y, color) {
+  g.fillStyle = color;
+  for (const ch of String(text).toUpperCase()) {
+    const bits = TINY[ch] || TINY[' '];
+    for (let i = 0; i < 15; i++) if (bits[i] === '1') g.fillRect(x + (i % 3), y + Math.floor(i / 3), 1, 1);
+    x += 4;
+  }
+}
+
 // ---------- タイトル画面（動く一枚絵） ----------
 class Title {
   constructor(game) { this.game = game; this.t = 0; this.index = 0; this.items = [{ label: 'はじめる' }, { label: 'せつめいしょ' }]; }
@@ -154,58 +169,90 @@ class Title {
       else { const p = this.game.data.pages[0]; if (p) location.href = p.href; }
     }
   }
+  // 丸い塊（雲・茂み）を行ごとの矩形で描く
+  blob(g, cx, cy, rx, ry, color) {
+    for (let dy = -ry; dy <= ry; dy++) { const w = Math.round(rx * Math.sqrt(1 - (dy * dy) / (ry * ry))); if (w > 0) g.fillRect(Math.round(cx - w), Math.round(cy + dy), w * 2, 1); }
+  }
+  cloud(g, x, y, s) {
+    const puffs = [[0, 6, 14, 6], [10, 2, 10, 7], [22, 4, 12, 7], [34, 7, 9, 5]];
+    g.fillStyle = '#d4e9fb'; puffs.forEach(([px, py, rx, ry]) => this.blob(g, x + px * s, y + (py + 2) * s, rx * s, ry * s));
+    g.fillStyle = '#ffffff'; puffs.forEach(([px, py, rx, ry]) => this.blob(g, x + px * s, y + py * s, rx * s, ry * s));
+    g.fillStyle = '#d4e9fb'; g.fillRect(Math.round(x - 14 * s), Math.round(y + 12 * s), Math.round(57 * s), Math.max(1, Math.round(2 * s)));
+  }
+  bush(g, x, y, r) {
+    g.fillStyle = '#2f8a3c'; this.blob(g, x, y + 1, r, r * 0.7); this.blob(g, x + r * 0.8, y + 2, r * 0.8, r * 0.6);
+    g.fillStyle = '#4fb35a'; this.blob(g, x - r * 0.2, y - 1, r * 0.7, r * 0.5);
+    g.fillStyle = '#8ee08a'; g.fillRect(Math.round(x - r * 0.4), Math.round(y - 2), 2, 1); g.fillRect(Math.round(x + r * 0.3), Math.round(y), 1, 1);
+  }
   draw(g) {
     const t = this.t;
-    // 空
-    const sky = ['#6fb7f0', '#84c4f4', '#9ad1f7', '#b3dffa', '#cdeafc'];
-    sky.forEach((c, i) => { g.fillStyle = c; g.fillRect(0, i * 18, W, 18); });
-    g.fillStyle = '#def2ff'; g.fillRect(0, 90, W, 14);
-    // 雲（速さの違う 2 層）
-    const cloud = (x, y, s) => { g.fillStyle = '#ffffff'; g.fillRect(x, y + 4 * s, 24 * s, 6 * s); g.fillRect(x + 5 * s, y, 12 * s, 6 * s); g.fillRect(x + 14 * s, y + 2 * s, 8 * s, 5 * s); g.fillStyle = '#e4f1fb'; g.fillRect(x, y + 8 * s, 24 * s, 2 * s); };
-    for (let i = 0; i < 3; i++) cloud(((i * 95 + t * 0.15) % (W + 60)) - 50, 8 + i * 16, 1);
-    for (let i = 0; i < 2; i++) cloud(((i * 150 + 40 + t * 0.35) % (W + 80)) - 60, 40 + i * 20, 1.5);
-    // 遠景の山と木
-    g.fillStyle = '#5fae6a'; for (let x = 0; x < W; x += 24) { const top = 92 - ((x / 24) % 3) * 3; g.fillRect(x, top, 24, 106 - top); }
-    // 建物（ウエスト4号館）
-    const bx = 128, by = 56, bw = 96, bh = 50;
-    g.fillStyle = '#8c98a8'; g.fillRect(bx - 2, by - 4, bw + 4, 4);
-    g.fillStyle = '#f3eadb'; g.fillRect(bx, by, bw, bh);
-    g.fillStyle = '#d9cdb4'; g.fillRect(bx, by + bh - 4, bw, 4);
-    for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) { g.fillStyle = (r + c) % 5 === 0 ? '#fff3b0' : '#8fd3f4'; g.fillRect(bx + 6 + c * 13, by + 5 + r * 11, 8, 7); }
-    g.fillStyle = '#5f6b7a'; g.fillRect(bx + 40, by + bh - 12, 16, 12); g.fillStyle = '#bfe8ff'; g.fillRect(bx + 42, by + bh - 10, 5, 6); g.fillRect(bx + 49, by + bh - 10, 5, 6);
-    g.fillStyle = '#ffffff'; g.fillRect(bx + 60, by + bh - 14, 30, 8); g.fillStyle = '#e85c4a'; g.fillRect(bx + 62, by + bh - 12, 12, 4); g.fillStyle = '#5f6b7a'; g.fillRect(bx + 76, by + bh - 12, 12, 1); g.fillRect(bx + 76, by + bh - 9, 10, 1);
-    // 手前の木
-    const tree = (x, y) => { g.fillStyle = '#8a5a2b'; g.fillRect(x + 6, y + 14, 4, 8); g.fillStyle = '#3f9b3a'; g.fillRect(x + 2, y + 4, 12, 12); g.fillRect(x + 4, y, 8, 6); g.fillStyle = '#6fcf5a'; g.fillRect(x + 4, y + 2, 3, 3); g.fillStyle = '#2c7a2c'; g.fillRect(x + 9, y + 10, 4, 4); };
-    tree(100, 84); tree(226, 86); tree(10, 80);
-    // 草地（風で揺れる）
-    g.fillStyle = '#8cd65a'; g.fillRect(0, 106, W, H - 106);
-    g.fillStyle = '#7ac44a'; g.fillRect(0, 106, W, 2);
+    // 空（上ほど濃い）
+    const sky = ['#4f9ee8', '#5faaee', '#72b8f2', '#86c5f5', '#9cd1f8', '#b4ddfa', '#cce8fc'];
+    sky.forEach((c, i) => { g.fillStyle = c; g.fillRect(0, i * 16, W, 16); });
+    // 雲（奥: 小さくゆっくり、手前: 大きく速く）
+    for (let i = 0; i < 4; i++) this.cloud(g, ((i * 80 + t * 0.12) % (W + 90)) - 60, 14 + (i % 2) * 14, 0.6);
+    for (let i = 0; i < 3; i++) this.cloud(g, ((i * 110 + 30 + t * 0.3) % (W + 120)) - 80, 40 + (i % 2) * 18, 1.0);
+    this.cloud(g, ((t * 0.5) % (W + 160)) - 100, 66, 1.4);
+    // 遠景: 石段の上の建物（ウエスト4号館）
+    const bx = 196, by = 70;
+    g.fillStyle = '#8c98a8'; g.fillRect(bx - 1, by - 2, 40, 2);
+    g.fillStyle = '#f3eadb'; g.fillRect(bx, by, 38, 26);
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { g.fillStyle = (r + c) % 3 === 0 ? '#fff3b0' : '#8fd3f4'; g.fillRect(bx + 3 + c * 9, by + 3 + r * 7, 5, 4); }
+    g.fillStyle = '#d9cdb4'; g.fillRect(bx, by + 24, 38, 2);
+    // 丘（なだらかな曲線）
+    for (let x = 0; x < W; x++) {
+      const top = 104 - Math.round(8 * Math.sin((x / W) * Math.PI)) + (x > 150 ? Math.round((x - 150) / 9) : 0);
+      g.fillStyle = '#9bdc62'; g.fillRect(x, top, 1, H - top);
+      g.fillStyle = '#7ac44a'; g.fillRect(x, top, 1, 2);
+    }
+    g.fillStyle = '#6fbf47'; g.fillRect(0, 138, W, H - 138);
+    // 石段（右へ上る）
+    for (let i = 0; i < 9; i++) {
+      const sx = 160 + i * 9, sy = 128 - i * 4;
+      g.fillStyle = '#b9bfc9'; g.fillRect(sx, sy, W - sx, 4);
+      g.fillStyle = '#e4e8ee'; g.fillRect(sx, sy, W - sx, 1);
+      g.fillStyle = '#7f8794'; g.fillRect(sx, sy + 3, 9, 1);
+    }
+    g.fillStyle = '#7f8794'; g.fillRect(160, 132, 80, 2);
+    // 草の揺れ・茂み・花・小物
     const sway = Math.floor(t / 18) % 2;
-    g.fillStyle = '#5aa838';
-    for (let x = 2; x < W; x += 14) { const yy = 112 + ((x / 14) % 4) * 11; g.fillRect(x + sway, yy, 1, 3); g.fillRect(x + 2 + sway, yy, 1, 3); g.fillRect(x + 1 + sway, yy + 1, 1, 2); }
-    g.fillStyle = '#eedc9a'; g.fillRect(0, 140, W, 8);
-    // キャラクター（その場で足踏み）
-    const frame = [0, 1, 0, 2][Math.floor(t / 12) % 4];
-    g.drawImage(getSprite('player', 'down', frame), 40, 128);
-    // ロゴ（上から落ちて着地で弾む）
+    g.fillStyle = '#4fa63a';
+    for (let x = 4; x < 150; x += 11) { const yy = 112 + ((x / 11) % 5) * 8; g.fillRect(x + sway, yy, 1, 3); g.fillRect(x + 2 + sway, yy, 1, 3); g.fillRect(x + 1 + sway, yy + 1, 1, 2); }
+    this.bush(g, 30, 128, 14); this.bush(g, 120, 140, 12); this.bush(g, 72, 146, 9); this.bush(g, 150, 150, 11);
+    [[12, 146, '#ff6b6b'], [52, 120, '#ffd84a'], [96, 128, '#ffffff'], [138, 122, '#ff6b6b'], [60, 150, '#ffd84a']].forEach(([x, y, c]) => { g.fillStyle = c; g.fillRect(x, y, 1, 1); g.fillRect(x - 1, y + 1, 3, 1); g.fillRect(x, y + 2, 1, 1); g.fillStyle = '#ffe9a0'; g.fillRect(x, y + 1, 1, 1); });
+    // 小物: 顕微鏡と本の束
+    g.fillStyle = '#5f6b7a'; g.fillRect(84, 136, 8, 2); g.fillRect(86, 128, 2, 8); g.fillRect(85, 126, 5, 3); g.fillRect(89, 124, 2, 6); g.fillStyle = '#8fd3f4'; g.fillRect(90, 124, 1, 2);
+    g.fillStyle = '#ff6b6b'; g.fillRect(100, 144, 9, 2); g.fillStyle = '#4aa3ff'; g.fillRect(101, 142, 9, 2); g.fillStyle = '#ffd84a'; g.fillRect(100, 140, 8, 2);
+    // キャラクター（石段を跳ねながら上る）
+    const hop = Math.max(0, Math.sin((t % 60) / 60 * Math.PI * 2)) * 6;
+    const frame = [1, 0, 2, 0][Math.floor(t / 7) % 4];
+    g.drawImage(getSprite('player', 'right', frame), 190, 102 - Math.round(hop));
+    // ロゴ（傾いた赤文字。上から落ちて弾む）
     const drop = Math.min(1, t / 50);
     const ease = 1 - Math.pow(1 - drop, 3);
     const bounce = t > 50 && t < 62 ? -Math.sin((t - 50) / 12 * Math.PI) * 3 : 0;
-    const ly = -40 + (40 + 22) * ease + bounce;
-    g.textAlign = 'center';
-    setFont(g, 32); outlinedText(g, 'M2D LAB', W / 2, ly, '#ffd84a', '#303030');
-    setFont(g, 16);
-    if (t > 55) { outlinedText(g, this.game.data.site.labName || '材料創製力学研究室', W / 2, ly + 36, '#ffffff', '#303030'); }
+    const ly = -50 + (50 + 14) * ease + bounce;
+    g.save();
+    g.translate(104, ly + 20); g.rotate(-0.09); g.transform(1, 0, -0.18, 1, 0, 0);
+    g.textAlign = 'center'; setFont(g, 48);
+    outlinedText(g, 'M2D LAB', 0, -20, '#e23b3b', '#4a1010');
+    g.fillStyle = '#ff8a7a'; g.fillText('M2D LAB', -1, -22); g.fillStyle = '#e23b3b'; g.fillText('M2D LAB', 0, -20);
+    g.restore();
+    g.textAlign = 'center'; setFont(g, 16);
+    if (t > 55) outlinedText(g, this.game.data.site.labName || '材料創製力学研究室', 104, ly + 54, '#ffffff', '#4a1010');
     g.textAlign = 'left';
-    // メニュー
+    // メニュー（左寄り。小さな星がカーソル）
     if (t >= 70) {
-      const w = 126, h = this.items.length * 17 + 12, x = W - w - 8, y = 112;
-      drawWindow(g, x, y, w, h);
-      this.items.forEach((it, k) => { g.fillStyle = k === this.index ? TEXT_HI : TEXT; g.fillText((k === this.index ? '▶' : '　') + it.label, x + 6, y + 6 + k * 17); });
-      g.textAlign = 'center'; g.fillStyle = '#303030';
-      setFont(g, 16); if (Math.floor(t / 30) % 2 === 0) g.fillText('Z / A ボタンで けってい', W / 2, 150 - 2);
-      g.textAlign = 'left';
+      const mx = 30, my = 96;
+      this.items.forEach((it, k) => {
+        const y = my + k * 18, sel = k === this.index;
+        outlinedText(g, it.label, mx + 14, y, sel ? '#ffffff' : '#e8f4ff', '#303030');
+        if (sel) { const bob = Math.floor(t / 15) % 2; g.fillStyle = '#ffd84a'; g.fillRect(mx + 3, y + 5 + bob, 1, 7); g.fillRect(mx, y + 8 + bob, 7, 1); g.fillRect(mx + 2, y + 7 + bob, 3, 3); g.fillStyle = '#ffffff'; g.fillRect(mx + 3, y + 8 + bob, 1, 1); }
+      });
     }
+    // クレジット（極小フォント）
+    tinyText(g, `© ${new Date().getFullYear()} M2D LAB`, 4, H - 7, '#2b5a3a');
+    tinyText(g, 'KIMURA LAB / KYUSHU UNIV.', W - 4 - 4 * 25, H - 7, '#2b5a3a');
   }
 }
 
