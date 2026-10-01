@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { items: CollectionEntry<'publications'>[] }
+const { items } = Astro.props;
+// 年ごとにグループ化し、新しい年から表示する
+const byYear = new Map<number, typeof items>();
+for (const p of items) {
+  const list = byYear.get(p.data.year) ?? [];
+  list.push(p);
+  byYear.set(p.data.year, list);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+{years.map((y) => (
+  <section>
+    <h3>{y}</h3>
+    <ol class="pub-list">
+      {byYear.get(y)!.map(({ data }) => (
+        <li>
+          <span class="pub-authors">{data.authors}</span>,
+          「{data.title}」,
+          <em>{data.venue}</em>
+          {data.volume && <span>, {data.volume}</span>}
+          {data.pages && <span>, {data.pages}</span>}
+          <span> ({data.year})</span>
+          {data.doi && <span>. <a href={`https://doi.org/${data.doi}`}>DOI: {data.doi}</a></span>}
+          {!data.doi && data.url && <span>. <a href={data.url}>リンク</a></span>}
+        </li>
+      ))}
+    </ol>
+  </section>
+))}

@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../../lib/url';
+const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="研究テーマ">
+  <h1>研究テーマ</h1>
+  <ul class="card-grid">
+    {research.map((r) => (
+      <li class="card">
+        <h3><a href={withBase(`/research/${r.id}`)}>{r.data.title}</a></h3>
+        <p>{r.data.summary}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+const items = await getCollection('equipment');
+---
+<Base title="装置・設備">
+  <h1>装置・設備</h1>
+  <ul class="card-grid">
+    {items.map(({ data }) => (
+      <li class="card">
+        {data.image && <img src={withBase(`/images/equipment/${data.image}`)} alt={data.name} />}
+        <h3>{data.name}</h3>
+        {(data.maker || data.model) && <p class="muted">{[data.maker, data.model].filter(Boolean).join(' ')}</p>}
+        <p>{data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

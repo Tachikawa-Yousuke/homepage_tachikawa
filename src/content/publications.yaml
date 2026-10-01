@@ -1,0 +1,239 @@
+# 業績リスト（査読付き学術論文）
+# 現行公式サイト（2026.5 最終更新）の No.52〜78（2024〜2026 年）を転記。No.1〜51（2014〜2023 年）は未移行。
+# - number: 公式サイトの通し番号
+# - type: journal / conference / award / other
+# - doi があれば "10.xxxx/..." 形式で記入するとリンクが自動生成される
+- id: p78
+  number: 78
+  type: journal
+  title: Electric current-driven heterogeneous microstructures in dual-phase titanium alloys
+  authors: Shaojie Gu, Yasuhiro Kimura, Yi Cui, Yasuyuki Morita, Sora Isoi, Chang Liu, Xinming Yan, Bingfeng Ju, Huayong Yang, Yuhki Toku, Yang Ju
+  venue: Nature Communications
+  year: 2026
+  volume: "17"
+  pages: "1"
+- id: p77
+  number: 77
+  type: journal
+  title: Improving the recovery capability and phase composition of NiTi shape memory alloy wires by high-density pulsed electric current treatment
+  authors: Bochen Li, Shaojie Gu, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: Journal of Materials Engineering and Performance
+  year: 2026
+  pages: online
+- id: p76
+  number: 76
+  type: journal
+  title: Improving fatigue performance of Cu films on polyimide substrates through AC-strain treatment
+  authors: Yi Zhang, Shaojie Gu, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: Materials Letters
+  year: 2026
+  volume: "413"
+  pages: "140447"
+- id: p75
+  number: 75
+  type: journal
+  title: 場の制御による原子拡散に基づく金属ナノワイヤの創製
+  authors: 木村 康裕
+  venue: まてりあ
+  year: 2026
+  volume: "65"
+  pages: "197"
+- id: p74
+  number: 74
+  type: journal
+  title: Tendon-like tissue regeneration via an electrospun nanofiber scaffold and cyclic stretch stimulation
+  authors: Seiji Omata, Fuga Matsubara, Yasuhiro Kimura, Yuhki Toku, Yasuyuki Morita, Yang Ju
+  venue: Journal of Medical and Biological Engineering
+  year: 2026
+  pages: online
+- id: p73
+  number: 73
+  type: journal
+  title: Electric current-driven microstructural recovery and crack resistance enhancement in Ni-based superalloy inconel 718
+  authors: Shaojie Gu, Sungmin Yoon, Chang Liu, Yanhong Peng, Yi Cui, Yasuhiro Kimura, Yuhki Toku, Yasuyuki Morita, Yang Ju
+  venue: "Materials Science and Engineering: A"
+  year: 2026
+  volume: "953"
+  pages: "149781"
+- id: p72
+  number: 72
+  type: journal
+  title: Effect of MA–SPS–PA processing on the microstructure and compression-compression fatigue behavior of a CoCrFeMnNi high entropy alloy
+  authors: Sungmin Yoon, Dogyun Byeon, Yasuhiro Kimura, Yong Suk Oh, Yuhki Toku, Yang Ju
+  venue: "（誌名は現行サイトに未記載。要確認）"
+  year: 2025
+  volume: "39"
+  pages: "1243"
+- id: p71
+  number: 71
+  type: journal
+  title: Improving the quality of the crystallinity of Cu films by non-thermal high-frequency electric current treatment
+  authors: Yi Zhang, Shaojie Gu, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: "Journal of Physics D: Applied Physics"
+  year: 2025
+  volume: "58"
+  pages: "395302"
+- id: p70
+  number: 70
+  type: journal
+  title: Nanowire growth of aluminum carbide ceramics by cobalt-based catalyst and its photoluminescence characteristics
+  authors: Yasuhiro Kimura, Ren Iwaya, Naoki Azuma, Yuhki Toku, Yang Ju
+  venue: Scripta Materialia
+  year: 2025
+  volume: "266"
+  pages: "116774"
+- id: p69
+  number: 69
+  type: journal
+  title: "Electric current-induced crack healing: mechanisms and scale-specific insights"
+  authors: Shaojie Gu, Daisuke Kobayashi, Sungmin Yoon, Chang Liu, Yanhong Peng, Yi Cui, Yasuhiro Kimura, Yuhki Toku, Yasuyuki Morita, Yang Ju
+  venue: International Journal of Fatigue
+  year: 2025
+  volume: "201"
+  pages: "109171"
+- id: p68
+  number: 68
+  type: journal
+  title: Comparative Study of Direct and Alternating Currents on the Microstructure Evolution of Additively Manufactured Ti-6Al-4V
+  authors: Chang Liu, Shaojie Gu, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: Metals and Materials International
+  year: 2025
+  pages: online
+- id: p67
+  number: 67
+  type: journal
+  title: Large-area gold bicrystal film with a thickness of micrometers for break junction
+  authors: Yasuhiro Kimura, Yu Nobuoka, Yuhki Toku, Yang Ju
+  venue: Surface Science and Technology
+  year: 2025
+  volume: "3"
+  pages: "12"
+- id: p66
+  number: 66
+  type: journal
+  title: Fracture toughness reinforcement on α-cristobalite-precipitated 3/2-mullite
+  authors: Ren Iwaya, Kenji Shinozaki, Yuhki Toku, Yang Ju, Yasuhiro Kimura
+  venue: International Journal of Applied Ceramic Technology
+  year: 2025
+  pages: online
+- id: p65
+  number: 65
+  type: journal
+  title: "Rapid recovery of work-hardening in stainless steel via high-density pulsed electric current: Impact of a thermal effect"
+  authors: Shaojie Gu, Chang Liu, Yi Cui, Xinming Yan, Yasuhiro Kimura, Yasuyuki Morita, Yuhki Toku, Yang Ju
+  venue: Nano Micro Mechanics Review
+  year: 2025
+  pages: in press
+- id: p64
+  number: 64
+  type: journal
+  title: Growth of metal nanowire forests controlled through stress fields induced by grain gradients
+  authors: Yasuhiro Kimura, Yi Cui, Takamasa Suzuki, Yuki Tanaka, Takaaki Tanaka, Yuhki Toku, Yang Ju
+  venue: Science
+  year: 2024
+  volume: "385"
+  pages: "641–646"
+- id: p63
+  number: 63
+  type: journal
+  title: Unveiling Thermal and Athermal Effects in Strain Hardening Removal of A6061 Aluminum Alloy
+  authors: Xiaoming Yu, Shaojie Gu, Guodong Wang, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: Metals and Materials International
+  year: 2024
+  volume: "31"
+  pages: "665"
+- id: p62
+  number: 62
+  type: journal
+  title: Achieving Stress Relief in Martensitic Stainless Steel Via High-Density Pulsed Electric Current Treatment
+  authors: Shaojie Gu, Daisuke Kobayashi, Xinming Yan, Chang Liu, Yasuhiro Kimura, Yuhki Toku, Yang Ju
+  venue: Metallurgical and Materials Transactions A
+  year: 2024
+  volume: "55"
+  pages: "3859–3868"
+- id: p61
+  number: 61
+  type: journal
+  title: Micromachined structures decoupling Joule heating and electron wind force
+  authors: Shaojie Gu, Yasuhiro Kimura, Xinming Yan, Chang Liu, Yi Cui, Yang Ju, Yuhki Toku
+  venue: Nature Communications
+  year: 2024
+  volume: "15"
+  pages: "6044"
+- id: p60
+  number: 60
+  type: journal
+  title: Molecular dynamics study of nanostructured polycrystalline CoCrCuFeNi high entropy alloy concerning temperature dependence of deformation-induced phase transformation
+  authors: Sungmin Yoon, Yasuhiro Kimura, Yuhki Toku
+  venue: Mechanical Engineering Journal
+  year: 2024
+  volume: "11"
+  pages: "23-00551"
+- id: p59
+  number: 59
+  type: journal
+  title: Titanium-coated high-density Fe2O3 single crystal nanowire array for solar water splitting
+  authors: Md Sultan Mahmud, Shaojie Gu, Sungmin Yoon, Yasuhiro Kimura, Yuhki Toku, Yang Ju
+  venue: Materials Express
+  year: 2024
+  volume: "14"
+  pages: "845–852"
+- id: p58
+  number: 58
+  type: journal
+  title: Suppressing fatigue crack growth owing to welded joints of duplex stainless steel subjected to multiple high-density pulsed electric currents
+  authors: Sungmin Yoon, Masato Morii, Yasuhiro Kimura, Yuhki Toku
+  venue: Mechanical Engineering Journal
+  year: 2024
+  volume: "11"
+  pages: "24-00015"
+- id: p57
+  number: 57
+  type: journal
+  title: Fatigue damage recovery and enhanced fatigue limit of austenitic stainless steel using multiple high-density pulsed electric currents
+  authors: Sungmin Yoon, Yasuhiro Kimura, Yang Ju, Yuhki Toku
+  venue: International Journal of Pressure Vessels and Piping
+  year: 2024
+  volume: "209"
+  pages: "105178"
+- id: p56
+  number: 56
+  type: journal
+  title: Ultrahigh deformability of Ti-6Al-4V assisted by high-density pulsed electric current treatment
+  authors: Shaojie Gu, Chang Liu, Yuhki Toku, Yasuhiro Kimura, Sungmin Yoon, Shaoli Li, Yi Cui, Yang Ju
+  venue: Journal of Alloys and Compounds
+  year: 2024
+  volume: "973"
+  pages: "172892"
+- id: p55
+  number: 55
+  type: journal
+  title: Restoring Plasticity in Nickel-Based Superalloy Using High-Density Pulsed Electric Current
+  authors: Xinming Yan, Shaojie Gu, Sungmin Yoon, Yasuhiro Kimura, Daisuke Kobayashi, Yang Ju, Yuhki Toku
+  venue: Advanced Engineering Materials
+  year: 2024
+  volume: "27"
+  pages: "2401409"
+- id: p54
+  number: 54
+  type: journal
+  title: Elevating fatigue life in nickel-based superalloys through suppression of persistent slip bands/markings via high-density pulsed electric current treatment
+  authors: Xinming Yan, Sungmin Yoon, Shaojie Gu, Yasuhiro Kimura, Daisuke Kobayashi, Yang Ju, Yuhki Toku
+  venue: Mechanical Engineering Journal
+  year: 2024
+- id: p53
+  number: 53
+  type: journal
+  title: Quantitative evaluation of dislocation density in SUS316L utilizing non-contact microwave reflection method
+  authors: Guodong Wang, Shaojie Gu, Yasuhiro Kimura, Yuhki Toku, Yang Ju
+  venue: Mechanical Engineering Journal
+  year: 2024
+- id: p52
+  number: 52
+  type: journal
+  title: "Microstructural modification and mechanical improvement of ultrafine-grained Ti alloy through electron wind force: An innovative approach"
+  authors: Yongpeng Tang, Yang Ju, Shaojie Gu, Qing Wang, Yasuhiro Kimura, Yuhki Toku, Satoshi Iikubo
+  venue: "Materials Science and Engineering: A"
+  year: 2024
+  volume: "891"
+  pages: "145845"

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PublicationList from '../components/PublicationList.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('publications');
+const sections = [
+  { type: 'journal', label: '学術論文' },
+  { type: 'conference', label: '学会発表' },
+  { type: 'award', label: '受賞' },
+  { type: 'other', label: 'その他' },
+] as const;
+---
+<Base title="業績">
+  <h1>業績</h1>
+  {sections.map((s) => {
+    const items = all.filter((p) => p.data.type === s.type);
+    if (items.length === 0) return null;
+    return (
+      <section>
+        <h2>{s.label}</h2>
+        <PublicationList items={items} />
+      </section>
+    );
+  })}
+</Base>

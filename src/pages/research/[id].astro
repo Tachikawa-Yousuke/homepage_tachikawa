@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const research = await getCollection('research');
+  return research.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={entry.data.title} description={entry.data.summary}>
+  <h1>{entry.data.title}</h1>
+  <p class="muted">{entry.data.summary}</p>
+  {entry.data.image && <img src={withBase(`/images/research/${entry.data.image}`)} alt={entry.data.title} />}
+  <Content />
+  <p><a href={withBase('/research')}>← 研究テーマ一覧へ</a></p>
+</Base>

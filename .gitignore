@@ -1,0 +1,15 @@
+# 依存関係・ビルド成果物
+node_modules/
+dist/
+.astro/
+
+# 環境変数・秘密情報（絶対にコミットしない）
+.env
+.env.*
+!.env.example
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

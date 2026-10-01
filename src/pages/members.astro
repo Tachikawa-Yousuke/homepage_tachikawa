@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+
+const all = (await getCollection('members')).sort((a, b) => a.data.order - b.data.order);
+const groups = [
+  { key: 'faculty', label: '教員' },
+  { key: 'student', label: '学生' },
+  { key: 'alumni', label: '卒業生' },
+] as const;
+---
+<Base title="メンバー">
+  <h1>メンバー</h1>
+  {groups.map((g) => {
+    const list = all.filter((m) => m.data.group === g.key);
+    if (list.length === 0) return null;
+    return (
+      <section>
+        <h2>{g.label}</h2>
+        <table class="member-table">
+          <thead><tr><th>氏名</th><th>役職・学年</th><th>研究キーワード</th></tr></thead>
+          <tbody>
+            {list.map(({ data }) => (
+              <tr>
+                <td>
+                  {data.photo && <img src={withBase(`/images/members/${data.photo}`)} alt={data.name} width="64" />}
+                  {data.name}{data.nameEn && <span class="muted"> ({data.nameEn})</span>}
+                </td>
+                <td>{data.role}</td>
+                <td>{data.interests.join('、')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    );
+  })}
+</Base>

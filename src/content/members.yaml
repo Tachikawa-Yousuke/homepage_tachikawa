@@ -1,0 +1,53 @@
+# メンバー一覧（現行公式サイト 2026-10 時点の公開情報を転記）
+# - photo / email は本人の同意がある場合のみ記入する。
+# - group: faculty（教員）/ student（学生）/ alumni（卒業生・修了生）
+- id: kimura
+  name: 木村 康裕
+  nameEn: Yasuhiro KIMURA
+  role: 准教授（主宰・PI）
+  roleEn: Associate Professor, Principal Investigator
+  group: faculty
+  order: 1
+  interests: [原子拡散, 金属ナノワイヤ創製, その場TEM観察, エレクトロマイグレーション]
+  bio: >-
+    2010年に茨城工業高等専門学校を卒業後、東北大学工学部機械知能・航空工学科に編入学。
+    エレクトロマイグレーションによる金属マイクロ・ナノワイヤ創製技術の研究に取り組み、2017年に東北大学で博士号を取得、助教に着任。
+    2019年に名古屋大学工学研究科マイクロ・ナノ機械理工学専攻 助教。2020年11月からJSTさきがけ研究者（2025年3月まで）。
+    2024年9月より九州大学大学院工学研究院機械工学部門 准教授。
+    「誰もが簡単に小さなモノづくりを」実現する新技術創出をミッションに、基礎研究と社会実装の両面を推進している。
+- id: tachikawa
+  name: 立川 陽佑介
+  role: M1
+  group: student
+  order: 10
+  interests: []
+- id: kuboya
+  name: 久保谷 康平
+  role: M1
+  group: student
+  order: 11
+  interests: []
+- id: kaneko
+  name: 金子 蒼太
+  role: B4
+  group: student
+  order: 20
+  interests: []
+- id: kudo
+  name: 工藤 貴史
+  role: B4
+  group: student
+  order: 21
+  interests: []
+- id: butler
+  name: BUTLER Austin Thomas
+  role: 特別聴講学生（北アリゾナ大学）2025.10–2026.7
+  group: alumni
+  order: 90
+  interests: []
+- id: uesaka
+  name: 植坂 岳寛
+  role: B4 2025.4–2026.3
+  group: alumni
+  order: 91
+  interests: []
