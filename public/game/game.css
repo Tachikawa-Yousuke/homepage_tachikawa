@@ -22,3 +22,9 @@ body.crt #game { filter: saturate(1.15) contrast(1.05); }
 .btns button[data-k="a"], .btns button[data-k="b"] { border-radius: 50%; width: 56px; height: 56px; }
 /* 画面には出さず、検索エンジンと支援技術にだけ渡すページ一覧 */
 .sr-nav { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* PC では携帯機の本体を思わせる枠を付ける（スマホでは枠なし） */
+@media (min-width: 701px) and (pointer: fine) {
+  #stage { padding: 22px 26px 30px; background: #3b3f6b; border-radius: 22px; box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.15); }
+  #stage::after { content: "M2D LAB · KIMURA LABORATORY"; position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-size: 10px; letter-spacing: 0.2em; color: #aab0dc; line-height: 1; }
+  #scan { inset: 22px 26px 30px; }
+}
