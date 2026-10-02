@@ -147,33 +147,6 @@ const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURICompo
 
     <script is:inline id="game-data" type="application/json" set:html={json}></script>
     <script is:inline type="module" src={withBase('/game/main.js')}></script>
-    <script is:inline type="module">
-      // ローディング演出
-      const base = (JSON.parse(document.getElementById('game-data').textContent).base || '/').replace(/\/$/, '');
-      const spritesUrl = base + '/game/sprites.js';
-      const loader = document.getElementById('loader');
-      let seen = false;
-      try { seen = sessionStorage.getItem('m2d-loaded') === '1'; } catch (e) {}
-      if (seen) { loader.hidden = true; }
-      else {
-        const fill = document.getElementById('load-fill'), pct = document.getElementById('load-pct'), walker = document.getElementById('load-walker');
-        let p = 0, done = false;
-        const finish = () => { if (done) return; done = true; loader.classList.add('done'); try { sessionStorage.setItem('m2d-loaded', '1'); } catch (e) {} setTimeout(() => { loader.hidden = true; }, 600); };
-        loader.addEventListener('click', finish);
-        const step = () => {
-          if (done) return;
-          p = Math.min(100, p + 3 + Math.random() * 9);          // ゲーム風に不均一に進む
-          fill.style.width = p + '%'; pct.textContent = Math.floor(p) + '%';
-          walker.style.left = `calc(${p}% - 16px)`;
-          if (p >= 100) setTimeout(finish, 350); else setTimeout(step, 90 + Math.random() * 160);
-        };
-        setTimeout(step, 200);
-        import(spritesUrl).then(({ getSprite }) => {
-          const g = walker.getContext('2d'); let f = 0;
-          const anim = () => { if (done) return; g.clearRect(0, 0, 16, 20); g.drawImage(getSprite('player', 'right', [0, 1, 0, 2][f++ % 4]), 0, 0); setTimeout(anim, 120); };
-          anim();
-        }).catch(() => {});
-      }
-    </script>
+    <script is:inline type="module" src={withBase('/home.js')}></script>
   </body>
 </html>
