@@ -27,13 +27,14 @@ const pages = [
 const data = { base: import.meta.env.BASE_URL, home: withBase('/'), site, members, equipment, publications, research, news, pages };
 // </script> で埋め込みが壊れないように < をエスケープ
 const json = JSON.stringify(data).replace(/</g, '\\u003c');
+const pageTitle = 'ウエスト4号館 たんけん RPG｜' + site.labName;
 ---
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>ウエスト4号館 たんけん RPG｜{site.labName}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={site.description} />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
