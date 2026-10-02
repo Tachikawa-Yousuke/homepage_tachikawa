@@ -122,7 +122,8 @@ class Menu {
   constructor(game) { this.game = game; this.open = false; this.index = 0; this.items = []; }
   show() {
     const pages = this.game.data.pages.map((p) => ({ label: p.label, action: () => { location.href = p.href; } }));
-    this.items = [...pages, { label: () => (this.game.crt ? 'がめん：CRT' : 'がめん：ふつう'), action: () => this.game.toggleCrt() }];
+    const home = this.game.data.home ? [{ label: 'ホームへ もどる', action: () => { location.href = this.game.data.home; } }] : [];
+    this.items = [...pages, ...home, { label: () => (this.game.crt ? 'がめん：CRT' : 'がめん：ふつう'), action: () => this.game.toggleCrt() }];
     this.open = true; this.index = 0;
   }
   update(input) {
@@ -160,6 +161,7 @@ class Title {
   constructor(game) { this.game = game; this.t = 0; this.index = 0; this.items = [{ label: 'はじめる' }, { label: 'せつめいしょ' }]; }
   update(input) {
     this.t++;
+    if (this.game.hero) { if (this.t >= 60 && input.consume('a')) location.href = this.game.data.play || '#'; return; }
     if (this.t < 70) { if (input.any) this.t = 70; return; }                 // ロゴ落下中は飛ばせる
     const n = this.items.length;
     if (input.consume('up')) this.index = (this.index + n - 1) % n;
@@ -241,8 +243,12 @@ class Title {
     g.textAlign = 'center'; setFont(g, 16);
     if (t > 55) outlinedText(g, this.game.data.site.labName || '材料創製力学研究室', 104, ly + 54, '#ffffff', '#4a1010');
     g.textAlign = 'left';
+    // ヒーローモード: メニューの代わりに PRESS START
+    if (this.game.hero) {
+      if (t >= 60 && Math.floor(t / 30) % 2 === 0) { g.textAlign = 'center'; outlinedText(g, 'PRESS START', 104, 104, '#ffd84a', '#303030'); g.textAlign = 'left'; }
+    }
     // メニュー（左寄り。小さな星がカーソル）
-    if (t >= 70) {
+    if (!this.game.hero && t >= 70) {
       const mx = 30, my = 96;
       this.items.forEach((it, k) => {
         const y = my + k * 18, sel = k === this.index;
@@ -262,6 +268,7 @@ class Game {
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.data = data;
     this.ctx.imageSmoothingEnabled = false;
     this.input = new Input(); this.dialog = new Dialog(this); this.menu = new Menu(this); this.title = new Title(this);
+    this.hero = canvas.dataset.mode === 'hero';   // トップページ埋め込み（タイトル演出のみ）
     this.state = 'title'; this.tick = 0; this.crt = false; this.hudTimer = 0;
     this.fade = { alpha: 1, target: 0, cb: null };
     this.player = { tx: 0, ty: 0, x: 0, y: 0, dir: 'down', moving: false, anim: 0 };
@@ -501,6 +508,7 @@ async function boot() {
   const controls = document.getElementById('controls');
   const stage = document.getElementById('stage');
   const resize = () => {
+    if (canvas.dataset.mode === 'hero') return;        // ヒーローは CSS で幅いっぱいに表示
     const ch = controls && getComputedStyle(controls).display !== 'none' ? controls.offsetHeight : 0;
     const frame = stage ? (parseInt(getComputedStyle(stage).paddingTop) + parseInt(getComputedStyle(stage).paddingBottom)) : 0;
     const scale = Math.max(1, Math.floor(Math.min((innerWidth - 16) / W, (innerHeight - ch - frame - 16) / H)));
