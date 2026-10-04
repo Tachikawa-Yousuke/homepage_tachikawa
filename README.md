@@ -12,11 +12,11 @@
 
 | URL | 内容 | ファイル |
 |---|---|---|
-| `/` | トップ。ローディング演出（同じタブで初回のみ、クリックで省略可）→ 動くタイトルを埋め込んだヒーロー → 連絡先 → ミニゲーム導入 → コンテンツ一覧カード | `src/pages/index.astro`, `public/home.css` |
-| `/play/` | RPG 本体（全画面） | `src/pages/play.astro`, `public/game/` |
+| `/` | トップ = ゲーム。ローディング演出（同じタブで初回のみ、クリックで省略可）→ タイトル画面 → RPG | `src/pages/index.astro`, `public/game/`, `public/home.js` |
+| `/home/` | アーケード風の文章ホーム（ヒーロー → 連絡先 → ミニゲーム導入 → コンテンツ一覧）。ゲーム内メニュー「ホームページを 見る」から | `src/pages/home.astro`, `public/home.css` |
 | `/about/` ほか | 通常の文章ページ（雛形のまま） | `src/pages/*.astro` |
 
-「開くといきなり RPG」に戻したい場合は `index.astro` と `play.astro` のファイル名を入れ替える。
+文章ホームをトップに戻したい場合は `index.astro` と `home.astro` のファイル名を入れ替える。
 
 ## ゲーム部分の構成（`public/game/`）
 

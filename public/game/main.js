@@ -122,7 +122,7 @@ class Menu {
   constructor(game) { this.game = game; this.open = false; this.index = 0; this.items = []; }
   show() {
     const pages = this.game.data.pages.map((p) => ({ label: p.label, action: () => { location.href = p.href; } }));
-    const home = this.game.data.home ? [{ label: 'ホームへ もどる', action: () => { location.href = this.game.data.home; } }] : [];
+    const home = this.game.data.home ? [{ label: 'ホームページを 見る', action: () => { location.href = this.game.data.home; } }] : [];
     this.items = [...pages, ...home, { label: () => (this.game.crt ? 'がめん：CRT' : 'がめん：ふつう'), action: () => this.game.toggleCrt() }];
     this.open = true; this.index = 0;
   }
