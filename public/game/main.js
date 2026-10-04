@@ -299,7 +299,7 @@ class Game {
   warpAt(x, y) { return (this.map.warps || []).find((w) => w.x === x && w.y === y); }
   isSolid(x, y) {
     const ch = this.tileAt(x, y);
-    if (ch === 'D' && !this.warpAt(x, y)) return true;          // ワープ先のないドアは閉まっている
+    if (this.info(x, y).door && !this.warpAt(x, y)) return true;  // ワープ先のないドアは閉まっている
     if (this.info(x, y).solid) return true;
     return !!this.npcAt(x, y) || (this.player.tx === x && this.player.ty === y);
   }
@@ -333,7 +333,7 @@ class Game {
         const [dx, dy] = DIRS[dir];
         const nx = p.tx + dx, ny = p.ty + dy;
         const ch = this.tileAt(nx, ny);
-        const blocked = (ch === 'D' && !this.warpAt(nx, ny)) || this.info(nx, ny).solid || this.npcAt(nx, ny);
+        const blocked = (this.info(nx, ny).door && !this.warpAt(nx, ny)) || this.info(nx, ny).solid || this.npcAt(nx, ny);
         if (!blocked) { p.moving = true; p.ntx = nx; p.nty = ny; }
       } else p.anim = 0;
     }
@@ -365,7 +365,7 @@ class Game {
       const dir = ['up', 'down', 'left', 'right'][Math.floor(Math.random() * 4)];
       n.facing = dir; n.wait = 30;
       const [dx, dy] = DIRS[dir]; const nx = n.x + dx, ny = n.y + dy;
-      if (this.tileAt(nx, ny) !== '=' && this.tileAt(nx, ny) !== '.' && this.tileAt(nx, ny) !== ',') continue;
+      if (!'=.,p'.includes(this.tileAt(nx, ny))) continue;
       if (this.isSolid(nx, ny) || this.warpAt(nx, ny) || (this.player.moving && this.player.ntx === nx && this.player.nty === ny)) continue;
       n.moving = true; n.nx = nx; n.ny = ny;
     }
@@ -376,7 +376,7 @@ class Game {
     const npc = this.npcAt(fx, fy);
     if (npc && !npc.moving) { npc.facing = OPPOSITE[this.player.dir]; this.talk(npc); return; }
     const ch = this.tileAt(fx, fy);
-    if (ch === 'D' && !this.warpAt(fx, fy)) { this.dialog.show(['カギが かかっている。']); return; }
+    if (this.info(fx, fy).door && !this.warpAt(fx, fy)) { this.dialog.show([(this.map.doorText || {})[`${fx},${fy}`] || 'カギが かかっている。']); return; }
     const act = this.info(fx, fy).act;
     if (act) this.examine(act, fx, fy);
   }
@@ -459,11 +459,11 @@ class Game {
       const info = this.legend[ch] || this.legend['.'];
       let tile;
       if (ch === '#') tile = (y + 1 < this.rowsN && this.tileAt(x, y + 1) !== '#') ? getTile('wallFace') : getTile('wallTop');
-      else if (info.tile === 'grass' || info.tile === 'floor' || info.tile === 'path') tile = getTile(info.tile, (x * 7 + y * 13) % 3);
+      else if (['grass', 'floor', 'path', 'plaza'].includes(info.tile)) tile = getTile(info.tile, (x * 7 + y * 13) % 3);
       else if (info.tile === 'flower') tile = getTile('flower', flowerFrame);
       else if (info.tile === 'shelf') tile = getTile('shelf', x % 3);
       else if (info.tile === 'equipment') tile = getTile('equipment', this.eqIndex.get(`${x},${y}`) ?? 0);
-      else if (info.tile === 'roof') tile = getTile('roof', this.tileAt(x, y - 1) === 'R' ? 0 : 1);
+      else if (info.tile === 'roof' || info.tile === 'groof') tile = getTile(info.tile, this.tileAt(x, y - 1) === ch ? 0 : 1);
       else tile = getTile(info.tile);
       g.drawImage(tile, x * TILE - cx, y * TILE - cy);
     }
@@ -485,7 +485,7 @@ class Game {
     if (!this.dialog.open && !this.menu.open && !p.moving) {
       const [fx, fy] = this.facingTile();
       const ch = this.tileAt(fx, fy);
-      const target = this.npcAt(fx, fy) || this.info(fx, fy).act || (ch === 'D' && !this.warpAt(fx, fy));
+      const target = this.npcAt(fx, fy) || this.info(fx, fy).act || (this.info(fx, fy).door && !this.warpAt(fx, fy));
       if (target) { setFont(g); outlinedText(g, '!', fx * TILE + 5 - cx, fy * TILE - 18 - cy + (Math.floor(this.tick / 15) % 2), '#ffd84a', '#303030'); }
       const lab = this.map.labels && this.tileAt(p.tx, p.ty - 1) === 'D' && this.map.labels[p.tx];
       if (lab) { setFont(g); const w = Math.ceil(g.measureText(lab).width) + 14; const lx = Math.max(2, Math.min(W - w - 2, p.tx * TILE + 8 - w / 2 - cx)), ly = (p.ty - 1) * TILE - 24 - cy; drawWindow(g, lx, ly, w, 22); g.fillStyle = TEXT; g.fillText(lab, lx + 7, ly + 3); }

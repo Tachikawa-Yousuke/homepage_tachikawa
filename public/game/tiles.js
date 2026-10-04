@@ -16,6 +16,12 @@ const P = {
   plate: '#ffffff', plateInk: '#e85c4a', plateLine: '#5f6b7a',
   signWood: '#c89a5a', signWoodDark: '#8a6232', signText: '#5a3a1a',
   bench: '#d8a060', benchDark: '#9a6a34',
+  plaza: '#e6e1d6', plaza2: '#d9d3c6', plazaLine: '#c9c2b3',
+  groof: '#9aa3ad', groof2: '#b4bcc5', groofDark: '#7a838d', groofEdge: '#d2d8de',
+  mwall: '#dfe3e8', mwall2: '#cfd5dc', mwallLine: '#b8c0c9', mbase: '#8d96a1',
+  mwin: '#7fc4ec', mwin2: '#d0efff', mframe: '#55606c',
+  mdoor: '#55606c', mdoorGlass: '#bfe8ff',
+  stone: '#8f8f98', stone2: '#b5b5bd', stoneDark: '#5f5f68',
   // 屋内
   floor: '#f4e7c8', floor2: '#ead9b4', floorLine: '#d9c69c',
   wallTop: '#5b6576', wallFace: '#c9d3df', wallFace2: '#b7c3d1', wallLine: '#9fadbd', wallBase: '#7e8a99',
@@ -91,6 +97,43 @@ const D = {
     R(g, 1, 5, 14, 4, P.bench); R(g, 1, 9, 14, 1, P.benchDark);
     R(g, 2, 10, 2, 4, P.benchDark); R(g, 12, 10, 2, 4, P.benchDark);
     R(g, 1, 3, 14, 2, P.benchDark);
+  },
+  plaza(g, v) {         // 石畳の広場
+    R(g, 0, 0, 16, 16, P.plaza);
+    R(g, 0, 7, 16, 1, P.plazaLine); R(g, 0, 15, 16, 1, P.plazaLine);
+    R(g, 7 + (v % 2) * 4, 0, 1, 7, P.plazaLine); R(g, 3 + (v % 3) * 4, 8, 1, 7, P.plazaLine);
+    R(g, 2, 3, 2, 1, P.plaza2); R(g, 11, 11, 2, 1, P.plaza2);
+  },
+  groof(g, v) {         // 灰色の屋根（陸屋根）。v=1 は最上段
+    R(g, 0, 0, 16, 16, P.groof);
+    R(g, 0, 4, 16, 1, P.groofDark); R(g, 0, 12, 16, 1, P.groofDark);
+    R(g, 4, 5, 1, 7, P.groof2); R(g, 12, 5, 1, 7, P.groof2);
+    if (v === 1) { R(g, 0, 0, 16, 3, P.groofEdge); R(g, 0, 3, 16, 1, P.groofDark); }
+  },
+  mwall(g) {            // 現代的な外壁（パネル）
+    R(g, 0, 0, 16, 16, P.mwall);
+    R(g, 0, 5, 16, 1, P.mwallLine); R(g, 0, 11, 16, 1, P.mwallLine); R(g, 7, 0, 1, 16, P.mwallLine);
+    R(g, 1, 1, 5, 3, P.mwall2); R(g, 9, 7, 5, 3, P.mwall2);
+    R(g, 0, 14, 16, 2, P.mbase);
+  },
+  mwindow(g) {          // 縦長の窓
+    D.mwall(g);
+    R(g, 2, 1, 12, 13, P.mframe); R(g, 3, 2, 10, 11, P.mwin);
+    R(g, 7, 2, 1, 11, P.mframe); R(g, 3, 7, 10, 1, P.mframe);
+    R(g, 4, 3, 2, 2, P.mwin2); R(g, 9, 3, 3, 1, P.mwin2);
+  },
+  mdoor(g) {            // 現代的な入口（ガラス扉）
+    D.mwall(g);
+    R(g, 1, 1, 14, 15, P.mframe); R(g, 2, 2, 12, 14, P.mdoorGlass);
+    R(g, 7, 2, 2, 14, P.mframe); R(g, 2, 9, 12, 1, P.mframe);
+    R(g, 3, 3, 3, 5, '#e8f6ff'); R(g, 10, 3, 3, 5, '#e8f6ff');
+    R(g, 5, 10, 1, 3, P.mdoor); R(g, 10, 10, 1, 3, P.mdoor);
+  },
+  stone(g) {            // 石のアート
+    D.grass(g, 2);
+    R(g, 3, 13, 10, 2, P.stoneDark);
+    R(g, 4, 5, 8, 8, P.stone); R(g, 6, 2, 4, 4, P.stone); R(g, 2, 8, 3, 4, P.stone);
+    R(g, 5, 6, 2, 2, P.stone2); R(g, 7, 3, 1, 2, P.stone2); R(g, 9, 9, 2, 3, P.stoneDark); R(g, 3, 10, 1, 2, P.stoneDark);
   },
   roof(g, v) {
     R(g, 0, 0, 16, 16, P.roof);

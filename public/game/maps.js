@@ -6,7 +6,7 @@ export const LEGEND = {
     '#': { tile: 'wall', solid: true },          // 壁（下が床なら正面、そうでなければ上面として描く）
     '.': { tile: 'floor' },
     '~': { tile: 'carpet' },
-    'D': { tile: 'door' },                       // 出入口（warps に対応がある）
+    'D': { tile: 'door', door: true },           // 出入口（warps に対応がある）
     'E': { tile: 'elevator', solid: true, act: 'elevator' },
     's': { tile: 'stairs', solid: true, act: 'stairs' },
     'W': { tile: 'window', solid: true },
@@ -31,55 +31,81 @@ export const LEGEND = {
     'B': { tile: 'bwall', solid: true },
     'N': { tile: 'bwindow', solid: true },
     'Q': { tile: 'plate', solid: true, act: 'sign' },
-    'D': { tile: 'bdoor' },                      // 建物の入口。warps になければ「カギがかかっている」
+    'D': { tile: 'bdoor', door: true },          // 建物の入口。warps になければ doorText を表示
+    'E': { tile: 'mdoor', door: true },          // 現代的な建物の入口
     'h': { tile: 'bench', solid: true },
+    'p': { tile: 'plaza' },                      // 石畳の広場
+    'G': { tile: 'groof', solid: true },         // 灰色の屋根
+    'M': { tile: 'mwall', solid: true },         // 現代的な壁
+    'n': { tile: 'mwindow', solid: true },
+    'k': { tile: 'stone', solid: true, act: 'sign' },   // 石のアート
   },
 };
 
 export const MAPS = {
   // ---------- 屋外: 伊都キャンパス ウエスト地区（仮） ----------
   campus: {
-    name: 'ウエスト地区',
+    name: 'ウエストゾーン',
     theme: 'outdoor',
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T............................T',
-      'T..RRRRRRRRR.....RRRRRR......T',
-      'T..RRRRRRRRR.....RRRRRR......T',
-      'T..BNNBBBNNB.....BNBNBB..T...T',
-      'T..BBQDBBBBB.....BBDBBB..T...T',
-      'T.....=............=.....,,..T',
-      'T.....=....,,,.....=.........T',
-      'T.....=================......T',
-      'T..,,.....=....S......=......T',
-      'T..,,.....=...........=.TT...T',
-      'T.........=....RRRRRRR=..TT..T',
-      'T.........=....RRRRRRR=......T',
-      'T......F..=....BNNNNNB=......T',
-      'T......F..=....BNNNNNB=......T',
-      'T.........=====BQBDBBB==.....T',
-      'T.........h.......=......h...T',
-      'T.......,,........=.....,,...T',
-      'T.......,,........=.....,,...T',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+      'T.GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.T',
+      'T..GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG..........T',
+      'T..GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG..........T',
+      'T..MnnMnnMnnMnnMnnMnnMnnMnnMnnMnnMnnMnn..........T',
+      'T..MMMMMMQMEMMMMMMMMMMMMMMMQMEMMMMMMMMM..........T',
+      'T.pppSppppppppppppppppppppppppppppppppppp........T',
+      'T.ppppppppppppppppppppppppppppppppppppppp........T',
+      'T.pppppppppppppphppppppphppppppppppppppppGGGGGGGGT',
+      'TRRRRRRRR..=.................=...........GGGGGGGGT',
+      'TRRRRRRRR..=.................=...........MnnMnnMnT',
+      'TBNNBBNNB..=.................=...........MQMEMMMMT',
+      'TBQBDBBBB..=.................=..........pppppppppT',
+      'Tppppppppp.=.................=..........S...=,.,.T',
+      'Tpppppppppp=,,...............=.,,...........=.k..T',
+      'Tppppppppp.=.................=..............=,.,.T',
+      'T.==============================================.T',
+      'T..........=..........S.................=........T',
+      'T..........=..h...................=============..T',
+      'T.....TT...=.,,.........T.,,......=...........=..T',
+      'T.....T....=.,................,...=.,,........=..T',
+      'T..........=......................=.....TT....=..T',
+      'T...===============================.....TT....=..T',
+      'T...................=.............=...........=..T',
+      'T.......,,..........=.h...........=.h......,,.=..T',
+      'T.T.............TT..=.......TT....=...........=..T',
+      'T..T............T...=.........T...=============..T',
+      'T...................=............................T',
+      'T...................=................T......T....T',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
     ],
     warps: [
-      { x: 18, y: 15, to: 'corridor4f', tx: 1, ty: 2, facing: 'down' },   // ウエスト4号館 入口 → 4F ろうか（エレベーター前）
+      { x: 11, y: 5, to: 'corridor4f', tx: 1, ty: 2, facing: 'down' },   // ウエスト4号館（23）入口 → 4F ろうか
     ],
     signs: {
-      '15,9': '伊都キャンパス ウエスト地区\n→ ウエスト4号館（材料創製力学研究室）',
-      '16,15': 'ウエスト4号館\n材料創製力学研究室（木村研）は 4F',
-      '5,5': '（建物の表札。文字は かすれて 読めない）',
+      '9,5': 'ウエスト4号館（23）\n材料創製力学研究室（木村研）は 4F',
+      '27,5': 'キャンパスライフ・健康支援センター（22）',
+      '5,6': 'WC（多目的トイレ）は こちら',
+      '2,12': 'ビッグどら（29）\n食堂・喫茶・売店・書店',
+      '42,11': '西講義棟（30）\nE-café（喫茶）',
+      '40,13': 'WC は こちら',
+      '46,14': '石のアート QIAO（チャオ）（31）\n石でできた 作品だ。',
+      '22,17': '九州大学 伊都キャンパス\nウエストゾーン ↑ ウエスト4号館',
+    },
+    doorText: {
+      '29,5': 'キャンパスライフ・健康支援センター。\n（ゲームでは 入れない）',
+      '4,12': 'ビッグどら。食堂と 売店と 書店。\n（ゲームでは 入れない）',
+      '44,11': '西講義棟。\n（ゲームでは 入れない）',
     },
     npcs: [
-      { id: 'npc', name: '学生', x: 12, y: 8, facing: 'down', palette: 'studentB', wander: true,
-        lines: ['ここは 九州大学 伊都キャンパス。', '材料創製力学研究室は ウエスト4号館の 4Fだよ。'] },
-      { id: 'npc', name: '学生', x: 20, y: 16, facing: 'left', palette: 'studentC', wander: true,
-        lines: ['研究室見学は いつでも 受け付けているって。', '4Fの 受付で 聞いてみて。'] },
-      { id: 'npc', name: 'おじさん', x: 25, y: 7, facing: 'down', palette: 'studentA', wander: true,
+      { id: 'npc', name: '学生', x: 18, y: 16, facing: 'down', palette: 'studentB', wander: true,
+        lines: ['ここは 伊都キャンパスの ウエストゾーン。', '材料創製力学研究室は ウエスト4号館の 4Fだよ。'] },
+      { id: 'npc', name: '学生', x: 8, y: 16, facing: 'left', palette: 'studentC', wander: true,
+        lines: ['ビッグどらには 食堂と 売店と 書店が あるよ。', 'お昼は いつも 混んでる。'] },
+      { id: 'npc', name: 'おじさん', x: 38, y: 16, facing: 'down', palette: 'studentA', wander: true,
         lines: ['目に見えないほど 小さい材料を つくっている 研究室が あるらしい。', '原子を 動かして つくるんだとか。'] },
     ],
-    start: { x: 18, y: 17, facing: 'up' },
+    start: { x: 11, y: 6, facing: 'up' },
   },
 
   // ---------- 屋内: ウエスト4号館 4F ----------
@@ -100,7 +126,7 @@ export const MAPS = {
       { x: 18, y: 1, to: 'room414', tx: 6, ty: 8, facing: 'up' },
       { x: 25, y: 1, to: 'room401', tx: 6, ty: 8, facing: 'up' },
     ],
-    exit: { to: 'campus', tx: 18, ty: 16, facing: 'down' },   // エレベーター / 階段で 1F（屋外）へ
+    exit: { to: 'campus', tx: 11, ty: 6, facing: 'down' },   // エレベーター / 階段で 1F（屋外）へ
     npcs: [],
     labels: { 8: '428 教員室', 18: '414 実験室', 25: '401 学生居室' },
   },
@@ -178,9 +204,10 @@ function normalize(map) {
     ...Array(padB).fill(fill.repeat(width)),
   ];
   const shift = (o) => ({ ...o, x: o.x + padL, y: o.y + padT });
-  const labels = {}, signs = {};
+  const labels = {}, signs = {}, doorText = {};
   for (const [x, v] of Object.entries(map.labels || {})) labels[Number(x) + padL] = v;
   for (const [k, v] of Object.entries(map.signs || {})) { const [x, y] = k.split(',').map(Number); signs[`${x + padL},${y + padT}`] = v; }
+  for (const [k, v] of Object.entries(map.doorText || {})) { const [x, y] = k.split(',').map(Number); doorText[`${x + padL},${y + padT}`] = v; }
   return {
     ...map, rows: newRows, _pad: { l: padL, t: padT },
     warps: (map.warps || []).map(shift),
@@ -189,6 +216,7 @@ function normalize(map) {
     start: map.start ? shift(map.start) : undefined,
     labels: map.labels ? labels : undefined,
     signs: map.signs ? signs : undefined,
+    doorText: map.doorText ? doorText : undefined,
   };
 }
 for (const k of Object.keys(MAPS)) MAPS[k] = normalize(MAPS[k]);
